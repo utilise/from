@@ -1,5 +1,5 @@
 var expect = require('chai').expect
-  , d3 = global.d3 = mock()
+  , d3 = global.d3 = require('d3')
   , from = require('./')
 
 describe('from', function() {
@@ -10,19 +10,8 @@ describe('from', function() {
   })
 
   it('should resolve from parent data', function() {
-    expect(from.parent.call({}, 'foo')).to.be.eql('bar')
+    var o = { parentNode: { __data__: { foo: 'bar' } } }
+    expect(from.parent.call(o, 'foo')).to.be.eql('bar')
   })
 
 })
-
-function mock() {
-  return { select: select }
-
-  function select() {
-    return { datum: datum }
-  }
-
-  function datum() {
-    return { foo: 'bar' }
-  }
-}
